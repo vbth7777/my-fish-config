@@ -1,3 +1,6 @@
+export GTK_IM_MODULE=ibus
+export QT_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
