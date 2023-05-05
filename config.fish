@@ -1,6 +1,7 @@
 export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
+#export PATH="$HOME/.cargo/bin:$PATH"
 if status is-interactive
     # Commands to run in interactive sessions can go here
 end
@@ -12,12 +13,38 @@ if type -q exa
     alias t2 "exa -l -g --icons --tree --level 2"
     alias t3 "exa -l -g --icons --tree --level 3"
     alias t4 "exa -l -g --icons --tree --level 4"
+    alias xclip='xclip -selection clipboard'
     #. ~/.config/bashScripts/aliases.sh
 end
 #functions
+function git_status
+    if test (count $argv) -eq 0
+        set directory "."
+    else
+        set directory $argv[1]
+    end
+    cd $directory
+    set separator "================================================================================"
+    set directory_separator "--------------------------------------------------------------------------------"
+    for d in */ 
+        cd "$d"
+        set gitstatus (git status --porcelain)
+        if string match -q '*M *' $gitstatus; or string match -q '*A *' $gitstatus; or string match -q '*? *' $gitstatus
+            printf "\n%s\n" "$separator"
+            printf "\033[1;32m%s\033[0m\n" "Processing directory: $d"
+            printf "\033[1;35m%s\033[0m\n" "$directory_separator"
+            git status
+            printf "%s\n" "$separator"
+        end
+        cd ..
+    end
+end
+
+
 function repo-push
   set REPO_PATH $argv[1] or (pwd)
-  set SCRIPT_PATH ~/.config/bspwm/scripts/push-commit.sh
+#  set SCRIPT_PATH ~/.config/bspwm/scripts/push-commit.sh
+  set SCRIPT_PATH ~/.config/private-files/push-commit.sh
 
   cd $REPO_PATH
 
