@@ -13,6 +13,9 @@ if type -q exa
     alias t2 "exa -l -g --icons --tree --level 2"
     alias t3 "exa -l -g --icons --tree --level 3"
     alias t4 "exa -l -g --icons --tree --level 4"
+    alias cwc "warp-cli connect"
+    alias cwd "warp-cli disconnect"
+    alias cws "warp-cli status"
     alias xclip='xclip -selection clipboard'
     #. ~/.config/bashScripts/aliases.sh
 end
