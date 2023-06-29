@@ -18,6 +18,7 @@ if type -q exa
     alias cwd "warp-cli status;warp-cli disconnect"
     alias cws "warp-cli status"
     alias xclip='xclip -selection clipboard'
+    alias mpvServer='node ~/Downloads/Tools/mpvServer'
     #. ~/.config/bashScripts/aliases.sh
 end
 #functions
