@@ -20,6 +20,7 @@ if type -q exa
     alias xclip='xclip -selection clipboard'
     alias mpvServer='node ~/Downloads/Tools/mpvServer'
     #. ~/.config/bashScripts/aliases.sh
+    z --clean
 end
 #functions
 function git_status
