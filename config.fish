@@ -4,6 +4,7 @@ export XMODIFIERS=@im=ibus
 export BROWSER=google-chrome-beta
 #export PATH="$HOME/.cargo/bin:$PATH"
 if status is-interactive
+    set fish_greeting ""
     alias cwc "warp-cli status;warp-cli connect"
     alias cwd "warp-cli status;warp-cli disconnect"
     alias cws "warp-cli status"
