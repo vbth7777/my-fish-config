@@ -21,6 +21,7 @@ if type -q exa
     alias mpvServer='node ~/Downloads/Tools/mpvServer'
     #. ~/.config/bashScripts/aliases.sh
     z --clean
+    clear
 end
 #functions
 function git_status
