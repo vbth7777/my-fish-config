@@ -4,7 +4,14 @@ export XMODIFIERS=@im=ibus
 export BROWSER=google-chrome-beta
 #export PATH="$HOME/.cargo/bin:$PATH"
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    alias cwc "warp-cli status;warp-cli connect"
+    alias cwd "warp-cli status;warp-cli disconnect"
+    alias cws "warp-cli status"
+    alias xclip='xclip -selection clipboard'
+    alias mpvServer='node ~/Downloads/Tools/mpvServer'
+    #. ~/.config/bashScripts/aliases.sh
+    z --clean
+    clear
 end
 if type -q exa
     alias ll "exa -l -g --icons"
@@ -14,14 +21,6 @@ if type -q exa
     alias t2 "exa -l -g --icons --tree --level 2"
     alias t3 "exa -l -g --icons --tree --level 3"
     alias t4 "exa -l -g --icons --tree --level 4"
-    alias cwc "warp-cli status;warp-cli connect"
-    alias cwd "warp-cli status;warp-cli disconnect"
-    alias cws "warp-cli status"
-    alias xclip='xclip -selection clipboard'
-    alias mpvServer='node ~/Downloads/Tools/mpvServer'
-    #. ~/.config/bashScripts/aliases.sh
-    z --clean
-    clear
 end
 #functions
 function git_status
