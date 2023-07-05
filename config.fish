@@ -72,31 +72,27 @@ function repo-push
 end
 
 function run_repo_push
-    set directory $argv[1]
-
-    # Check if directory argument is provided
-    if test (count $directory) -eq 0
-        echo "Error: Directory argument is missing."
-        echo "Usage: run_repo_push <directory>"
-        return
-    end
+    set directory (count $argv) > /dev/null; and set directory $argv[1]; or set directory "."
+    echo $directory
 
     # Check if the provided directory exists
-    if not test -d $directory
-        echo "Error: Directory does not exist."
+    if not test -d "$directory"
+        echo "Error: Directory '$directory' does not exist."
         return
     end
 
+    # Get the absolute path of the directory
+    set abs_directory (realpath "$directory")
+
     # Loop through each subdirectory in the specified directory
-    for folder in $directory/*
-        if test -d $folder  # Check if it's a directory
-            echo "Entering $folder"
-            cd $folder; or return 1  # Enter the folder or exit if unsuccessful
-            echo "Running repo-push command"
-            repo-push  # Replace with your actual command
-            echo "Finished repo-push in $folder"
-            echo  # Print an empty line for readability
-            cd - >/dev/null  # Return to the previous directory
-        end
+    for folder in (find "$abs_directory" -type d -name '.git' -prune -exec dirname {} \;)
+        echo "Entering $folder"
+        cd "$folder"; or return 1  # Enter the folder or exit if unsuccessful
+        echo "Running repo-push command"
+        repo-push  # Replace with your actual command
+        echo "Finished repo-push in $folder"
+        echo  # Print an empty line for readability
+        cd - >/dev/null  # Return to the previous directory
     end
 end
+
