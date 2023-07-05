@@ -71,3 +71,32 @@ function repo-push
   bash $SCRIPT_PATH
 end
 
+function run_repo_push
+    set directory $argv[1]
+
+    # Check if directory argument is provided
+    if test (count $directory) -eq 0
+        echo "Error: Directory argument is missing."
+        echo "Usage: run_repo_push <directory>"
+        return
+    end
+
+    # Check if the provided directory exists
+    if not test -d $directory
+        echo "Error: Directory does not exist."
+        return
+    end
+
+    # Loop through each subdirectory in the specified directory
+    for folder in $directory/*
+        if test -d $folder  # Check if it's a directory
+            echo "Entering $folder"
+            cd $folder; or return 1  # Enter the folder or exit if unsuccessful
+            echo "Running repo-push command"
+            repo-push  # Replace with your actual command
+            echo "Finished repo-push in $folder"
+            echo  # Print an empty line for readability
+            cd - >/dev/null  # Return to the previous directory
+        end
+    end
+end
