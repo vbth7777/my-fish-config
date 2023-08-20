@@ -71,7 +71,7 @@ function repo-push
   bash $SCRIPT_PATH
 end
 
-function run_repo_push
+function run-repo-push
     set directory (count $argv) > /dev/null; and set directory $argv[1]; or set directory "."
     echo $directory
 
