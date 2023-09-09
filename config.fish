@@ -95,4 +95,11 @@ function run-repo-push
         cd - >/dev/null  # Return to the previous directory
     end
 end
-
+function open
+    if string match -q 'http*' $argv[1]
+        set url $argv[1]
+    else
+        set url "https://$argv[1]"
+    end
+    $BROWSER $url
+end
