@@ -13,6 +13,7 @@ if status is-interactive
     #. ~/.config/bashScripts/aliases.sh
     z --clean
     clear
+    $HOME/.local/bin/colorscript -r
 end
 if type -q exa
     alias ll "exa -l -g --icons"
