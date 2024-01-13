@@ -13,7 +13,7 @@ if status is-interactive
     #. ~/.config/bashScripts/aliases.sh
     z --clean
     clear
-    $HOME/.local/bin/colorscript -r
+    # $HOME/.local/bin/colorscript -r
 end
 if type -q exa
     alias ll "exa -l -g --icons"
@@ -104,3 +104,6 @@ function open
     end
     $BROWSER $url
 end
+
+# Created by `pipx` on 2023-12-24 10:28:23
+set PATH $PATH /home/gener/.local/bin
