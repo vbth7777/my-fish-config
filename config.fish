@@ -57,10 +57,10 @@ function repo-push
   cd $REPO_PATH
 
   # Check if the push-commit.sh script exists
-  if test ! -f $SCRIPT_PATH; then
-    echo 'push-commit.sh script not found!'
+if not test -f $SCRIPT_PATH
+    echo "Error: push-commit.sh script not found at $SCRIPT_PATH"
     return 1
-  end
+end
 
   # check if the current commit is the latest commit
   if git remote update && git status -uno | grep -q 'Your branch is behind'
