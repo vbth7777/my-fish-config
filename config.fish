@@ -104,6 +104,9 @@ function open
     end
     $BROWSER $url
 end
+function shuffle-files
+    ls | sort -rh | shuf
+end
 
 # Created by `pipx` on 2023-12-24 10:28:23
 set PATH $PATH /home/gener/.local/bin
