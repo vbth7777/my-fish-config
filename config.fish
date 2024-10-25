@@ -2,6 +2,7 @@ export GTK_IM_MODULE=ibus
 export QT_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export BROWSER=google-chrome-stable
+export NODE_OPTIONS='--no-experimental-require-module'
 #export PATH="$HOME/.cargo/bin:$PATH"
 if status is-interactive
     set fish_greeting ""
