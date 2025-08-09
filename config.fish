@@ -108,6 +108,121 @@ end
 function shuffle-files
     ls | sort -rh | shuf
 end
+function mpv-random
+    # Find all files recursively and store them in an array
+    set -l files (find . -type f)
+
+    # Check if any files were found
+    if test (count $files) -eq 0
+        echo "No files found in the current directory or subdirectories."
+        exit 1
+    end
+
+    # Select a random file
+    set -l random_file $files[(random (count $files))]
+
+    # Play the selected random file with mpv
+    mpv "$random_file"
+
+end
+function shuffle_videos
+    # Check if the correct number of arguments are passed
+    if test (count $argv) -ne 3
+        echo "Usage: shuffle_videos <directory> <max_length_in_minutes> <max_output_count>"
+        return 1
+    end
+
+    set dir $argv[1]
+    set max_length_minutes (math $argv[2])
+    set max_output_count (math $argv[3])
+
+    # Validate directory
+    if not test -d $dir
+        echo "Directory not found: $dir"
+        return 1
+    end
+
+    # Find and shuffle all .mp4 files in the directory, then limit the output to max_output_count
+    set video_files (find $dir -type f -iname "*.mp4" | shuf)
+
+    set valid_videos
+
+    # Filter videos by duration
+    set count 0
+    for video in $video_files
+        set duration (ffprobe -v error -select_streams v:0 -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 $video)
+        set duration_minutes (math $duration / 60)
+        if test $duration_minutes -gt $max_length_minutes
+            # Add the valid video to the list, ensuring each is on a new line
+            set valid_videos "$valid_videos\n$video"
+            set count (math $count+1)
+            if test $count -eq $max_output_count
+                break
+            end
+        end
+    end
+
+    # Remove empty lines and output the valid shuffled list, one video per line
+    echo -e $valid_videos | grep -v '^\s*$'
+end
+
+
+function similarity
+    # Input arguments: two strings to compare
+    set string1 $argv[1]
+    set string2 $argv[2]
+
+    if test -z "$string1" -o -z "$string2"
+        echo "Usage: similarity <string1> <string2>"
+        return 1
+    end
+
+    # Use Python to calculate the similarity percentage
+    set similarity (python3 -c "
+import difflib
+import sys
+string1 = sys.argv[1]
+string2 = sys.argv[2]
+similarity = difflib.SequenceMatcher(None, string1, string2).ratio() * 100
+print(f'{similarity:.2f}')
+" "$string1" "$string2")
+
+    # Print the similarity percentage
+    echo $similarity
+end
+
+function search_files_by_similarity
+    # Input arguments: query string
+    set query $argv[1]
+
+    if test -z "$query"
+        echo "Usage: search_files_by_similarity <query_string>"
+        return 1
+    end
+
+    # Temporary storage for results
+    set results ""
+
+    # Find all files in the current directory and subdirectories
+    for file in (find . -type f)
+        # Check if the file contains the query string
+        if grep -qi "$query" $file
+            # Calculate similarity percentage (assuming similarity function exists)
+            set similarity (similarity "$query" "$file")
+
+            # Store results in a formatted way
+            set results $results "$similarity\t$file"
+        end
+    end
+
+    if test -z "$results"
+        echo "No matching files found for query: $query"
+        return 0
+    end
+
+    # Sort results by similarity percentage in descending order and print
+    echo "$results" | sort -nr | awk '{print $1 "%\t" $2}'
+end
 
 # Created by `pipx` on 2023-12-24 10:28:23
 set PATH $PATH /home/gener/.local/bin
